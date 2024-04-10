@@ -1,0 +1,9 @@
+builders:
+  copy_with_generator:
+    import: "package:dart_learning/builder.dart"
+    builder_factories: ["copyWithBuilder"]
+    build_extensions: {".dart": [".copywith.dart"]}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
+    
