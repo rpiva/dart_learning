@@ -3,9 +3,14 @@ import 'package:build/build.dart';
 import 'package:code_builder/code_builder.dart';
 import 'package:dart_learning/generator_tool/annotations/model_mixin_annotations.dart';
 import 'package:dart_learning/generator_tool/generator_utilities/visitor.dart';
+import 'package:dart_learning/generator_tool/generators/model_utility_generator/tostring_utility_maker.dart';
 import 'package:dart_style/dart_style.dart';
 import 'package:source_gen/source_gen.dart';
 
+/// Generatore di un mixin che contiene gli override dei metodi:
+/// toString
+/// hashCode
+/// operator ==
 class ModelUtilityGenerator extends GeneratorForAnnotation<WithModelMixin> {
   final BuilderOptions options;
 
@@ -21,15 +26,28 @@ class ModelUtilityGenerator extends GeneratorForAnnotation<WithModelMixin> {
     element.visitChildren(visitor);
     final Iterable<FieldElement> fields = element.children.whereType<FieldElement>();
 
-    final modelMixin = Mixin((m) => m
-          ..name = "${visitor.className}Utility"
-          ..on = Reference("${visitor.className}ModelMixin")
+    final modelMixin = Mixin(
+      (m) => m
+        ..name = "${visitor.className}Utility"
+        ..on = Reference("${visitor.className}ModelMixin")
         // Lista dei getter per i campi
-        // ..methods.addAll(getters),
-        );
+        ..methods.addAll([
+          prepToString(
+            className: visitor.className.getDisplayString(
+              withNullability: false,
+            ),
+            fieldNames: ['code', 'name'],
+          ),
+        ]),
+    );
 
     final emitter = DartEmitter.scoped();
     String generatedCode = DartFormatter().format('${modelMixin.accept(emitter)}');
+    final className = visitor.className;
+    final visitorFields = visitor.fields;
+    final metaData = visitor.metaData;
+    final methods = visitor.methods;
+    final optionsEntries = options.config.entries;
 
     return '''
       $generatedCode

@@ -6,13 +6,14 @@ import 'package:meta/meta.dart';
 
 part 'item.g.dart';
 part 'item.mixin.dart';
+part 'item.utility.dart';
 part 'item.copywith.dart';
 
 @WithModelMixin()
 @CopyWith(handleChanges: true)
 @JsonSerializable()
 @Immutable()
-class Item extends BaseModel with ItemModelMixin, ItemCopyWith {
+class Item extends BaseModel with ItemModelMixin, ItemCopyWith, ItemUtility {
   @override
   final String code;
   @override
@@ -33,9 +34,4 @@ class Item extends BaseModel with ItemModelMixin, ItemCopyWith {
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$ItemToJson(this);
-
-  @override
-  String toString() {
-    return 'Item($code - $name)';
-  }
 }

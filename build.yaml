@@ -9,6 +9,16 @@ targets:
         enabled: True
         generate_for:
           - lib/models/item/*
+        options:
+          name: RP
+          host: localhost
+          port: 5432
+          user: nempos
+          password: dbpass
+          test: 
+            k1: va1
+            k2: va2
+            k3: va3
       dart_learning:model_copywith_generator:
         enabled: True
         generate_for:
