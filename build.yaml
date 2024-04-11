@@ -1,9 +1,49 @@
+targets:
+  $default:
+    builders:
+      dart_learning:model_mixin_generator:
+        enabled: True
+        generate_for:
+          - lib/models/item/*
+      dart_learning:model_utility_generator:
+        enabled: True
+        generate_for:
+          - lib/models/item/*
+      dart_learning:model_copywith_generator:
+        enabled: True
+        generate_for:
+          - lib/models/item/*
+
 builders:
-  copy_with_generator:
+  model_mixin_generator:
     import: "package:dart_learning/builder.dart"
-    builder_factories: ["copyWithBuilder"]
+    builder_factories: ["modelMixinBuilder"]
+    build_extensions: {".dart": [".mixin.dart"]}
+    auto_apply: dependents
+    build_to: source
+  model_utility_generator:
+    import: "package:dart_learning/builder.dart"
+    builder_factories: ["modelUtilityBuilder"]
+    build_extensions: {".dart": [".utility.dart"]}
+    auto_apply: dependents
+    build_to: source
+  model_copywith_generator:
+    import: "package:dart_learning/builder.dart"
+    builder_factories: ["modelCopyWithBuilder"]
     build_extensions: {".dart": [".copywith.dart"]}
     auto_apply: dependents
     build_to: source
-    applies_builders: ["source_gen|combining_builder"]
-    
+    # applies_builders: ["source_gen|combining_builder"]
+
+
+
+#         options:
+#           name: RP
+#           host: localhost
+#           port: 5432
+#           user: nempos
+#           password: dbpass
+#           test: 
+#             k1: va1
+#             k2: va2
+#             k3: va3

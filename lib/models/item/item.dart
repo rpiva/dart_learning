@@ -1,16 +1,24 @@
-import 'package:dart_learning/generator/annotations/copy_with_annotation.dart';
+import 'package:dart_learning/generator_tool/annotations/model_copywith_annotations.dart';
+import 'package:dart_learning/generator_tool/annotations/model_mixin_annotations.dart';
 import 'package:dart_learning/models/base_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 
 part 'item.g.dart';
+part 'item.mixin.dart';
+part 'item.copywith.dart';
 
+@WithModelMixin()
+@CopyWith(handleChanges: true)
 @JsonSerializable()
 @Immutable()
-@CopyWith()
-class Item extends BaseModel {
+class Item extends BaseModel with ItemModelMixin, ItemCopyWith {
+  @override
   final String code;
+  @override
   final String name;
+  @JsonKey(name: 'price', disallowNullValue: true)
+  @override
   final double price;
 
   Item({
