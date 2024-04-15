@@ -11,10 +11,25 @@ mixin ItemUtility on ItemModelMixin {
   String toString() {
     return "Item(code: $code, name: $name)";
   }
-}
 
-// className = Item
-// fields = {code: String, name: String, price: double}
-// metaData = {code: [@Object get override], name: [@Object get override], price: [@JsonKey JsonKey({bool? nullable, Object? defaultValue, bool? disallowNullValue, Function? fromJson, bool? ignore, bool? includeFromJson, bool? includeIfNull, bool? includeToJson, String? name, Object? Function(Map<dynamic, dynamic>, String)? readValue, bool? required, Function? toJson, Enum? unknownEnumValue}), @Object get override]}
-// methods = {toJson: Map<String, dynamic> Function(), toString: String Function()}
-// options entries = (MapEntry(name: RP), MapEntry(host: localhost), MapEntry(port: 5432), ..., MapEntry(password: dbpass), MapEntry(test: {k1: va1, k2: va2, k3: va3}))
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) {
+      return true;
+    }
+    if (other.runtimeType != runtimeType) {
+      return false;
+    }
+
+    return other is Item &&
+        id == other.id &&
+        code == other.code &&
+        name == other.name &&
+        price == other.price;
+  }
+
+  @override
+  int get hashCode {
+    return super.hashCode ^ id.hashCode ^ code.hashCode ^ name.hashCode;
+  }
+}

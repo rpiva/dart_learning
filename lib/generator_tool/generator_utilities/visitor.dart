@@ -29,4 +29,17 @@ class ModelVisitor extends SimpleElementVisitor {
   visitMethodElement(MethodElement element) {
     methods[element.name] = element.type;
   }
+
+  /// Funzione che ritorna le informazioni dei campi della classe unendo le informazioni
+  /// di [fields] e [metaData].
+  Map<String, dynamic> fieldsInfo() {
+    Map<String, dynamic> returnValue = {};
+    for (String key in fields.keys) {
+      returnValue[key] = {
+        'type': fields[key],
+        'annotations': metaData[key],
+      };
+    }
+    return returnValue;
+  }
 }
